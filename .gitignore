@@ -1,3 +1,6 @@
 *.csv
 *.mp4
 *.asv
+_*
+__pycache__
+

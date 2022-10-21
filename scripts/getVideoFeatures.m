@@ -1,7 +1,10 @@
-% low-level video metadata extraction script 
+function getVideoFeatures(folder)
+% function getVideoFeatures(folder)
+% low-level video metadata extraction 
 %
 % required: "colorspace.mexw64"
 % A) video scene breakup
+% before running the script, python script tor scene identification must be run.
 % open ANACONDA powershell to identify scenes from the video
 % call script "sc.ps1 " or manually extract scene timestampps using:
 % scenedetect -i "PATH\FILENAME.mp4" detect-content -t 10  list-scenes
@@ -19,23 +22,24 @@
 % FILENAME-T_Avgs.csv
 % average values of "avgShotLen", "ColVar", "MotionMean", "MotionStd" and "LightKey"
 % for entire video
-
-
-clear all;
 warning off;
-videoPath='.\';
+if exist("folder")
+    videoPath=strcat(folder,"\");
+else
+    videoPath='.\';
+end
 videoFileNames=dir(strcat(videoPath,'*.mp4'));
 numVideo=length(videoFileNames);
 for videoIdx=1:numVideo
         %opens video mp4 for reading
         vidObj = VideoReader(strcat(videoPath,videoFileNames(videoIdx).name));
         % read scene data
-        [dir,name,ext]=fileparts(strcat(videoPath,videoFileNames(videoIdx).name));
+        [dir1,name,ext]=fileparts(strcat(videoPath,videoFileNames(videoIdx).name));
         % opens file *-scenes.csv for reading: analyse video file and get
         % SCENE averages.
-        opts = detectImportOptions(strcat(name,'-Scenes.csv'));
+        opts = detectImportOptions(strcat(dir1,'\',name,'-Scenes.csv'));
         opts.SelectedVariableNames = {'SceneNumber','StartFrame','EndFrame'};
-        Scenes = readtable(strcat(name,'-Scenes.csv'),opts);
+        Scenes = readtable(strcat(dir1,'\',name,'-Scenes.csv'),opts);
         numFrames=max(Scenes.EndFrame+1);
         ShotNum = zeros(numFrames,1);
         ColVar = zeros(numFrames,1);
@@ -45,14 +49,16 @@ for videoIdx=1:numVideo
         for n=1:max(Scenes.SceneNumber)
             ShotNum(Scenes(n,:).StartFrame+1:Scenes(n,:).EndFrame+1)=Scenes(n,:).SceneNumber;
         end
-
         % prepare in advance for Optical Flow HS
         opticFlow = opticalFlowHS;
         fCount=0;
         %loop through frames for 
+        textprogressbar(char(strcat(num2str(videoIdx),"/",num2str(numVideo)," ",name,": ")));
         while(hasFrame(vidObj))
             frameRGB = lin2rgb(double(readFrame(vidObj))/255);
-            fCount=fCount+1
+            fCount=fCount+1;
+            %waitbar(fCount/numFrames,wbar,name);
+            textprogressbar(100*(fCount+1)/numFrames);
             % determine Color Variance
             frameLuv = colorspace('Luv<-',frameRGB);
             covLuv   = cov(reshape(frameLuv,[],3));
@@ -65,7 +71,7 @@ for videoIdx=1:numVideo
             frameHSV = rgb2hsv(frameRGB);
             LightKey(fCount) = mean2(frameHSV(:,:,3))*std2(frameHSV(:,:,3));
         end
-
+        textprogressbar(' OK');
         %averages overall
         avgShotLen = fCount/height(Scenes);
         avgColVar = mean(ColVar);
@@ -76,9 +82,9 @@ for videoIdx=1:numVideo
         %save results
         T_Vec = table(ShotNum, ColVar, MotionMean, MotionStd, LightKey);
         T_Avgs = table(avgShotLen, avgColVar, avgMotionMean, avgMotionStd, avgLightKey);
-        writetable(T_Vec, strcat(name,'-T_Vec.csv'));
-        writetable(T_Avgs, strcat(name,'-T_Avgs.csv'));
-    disp(strcat('End: ',name));
+        writetable(T_Vec, strcat(videoPath,name,'-T_Vec.csv'));
+        writetable(T_Avgs, strcat(videoPath,name,'-T_Avgs.csv'));
+    disp(strcat('Done: ',name));
 end
 
 
