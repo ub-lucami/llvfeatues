@@ -71,12 +71,19 @@ Requirements:
 pandas
 
 Before the run specify folder and data filenames in script header, eg.:
+
 (Cell 3) Features
+
 file_path = '../samples/'
+
 data_fn = 'LLFeatures.csv'
+
 (Cell 4) Scores
+
 data_fn = 'OBrienUES.csv'
+
 (Cell 6)
+
 UES_LLF_fn = 'UES_LLFeatures.csv'
 
 ```py
@@ -94,6 +101,7 @@ numpy, pandas, matplotlib.pyplot, seaborn
 Before the run specify folder and data filename in script header (Cell 3), eg.:
 
 file_path = '../samples/'
+
 data_fn = 'UES_LLFeatures.csv'
 
 ```py
@@ -107,11 +115,13 @@ Run the file "runExperiment_ExplVar.py" to process all pairs of Low Level featur
 Requirements:
 
 os, numpy, pandas
+
 explVar_tools - provided in this library
 
 Before the run specify folder and data filename in script header (Cell 3), eg.:
 
 file_path = '../samples/'
+
 data_fn = 'UES_LLFeatures.csv'
 
 ```py
@@ -126,14 +136,17 @@ As explained in our study, it is not the intention to build a complete regressio
 Variability of scores within a single video regardless of the features turns out to be high, which lead to low R-squared values.
 
 Run the file "runExperiment_ExplVarIdeal.py" to determine maximum possible R-squared values for the case of ideal video features.
+
 Requirements:
 
 os, pandas
+
 explVar_tools_4ideal - provided in this library
 
 Before the run specify folder and data filename in script header (Cell 3), eg.:
 
 file_path = '../samples/'
+
 data_fn = 'UES_LLFeatures.csv'
 
 ```py
@@ -145,13 +158,19 @@ All required sample data are available in subfolder "./samples".
 Low level features were obtained from video files loaded on YouTube
 
 [Dior Joy Perfume](https://youtu.be/1CRihg1X89A)
-[Coca Cola & 1:00](https://youtu.be/qdPXQLrueRg)
+
+[Coca Cola](https://youtu.be/qdPXQLrueRg)
+
 [W. Collision Center](https://youtu.be/lwEyAW0ia5k)
+
 [Little Baby's Ice Cream](https://youtu.be/erh2ngRZxs0)
+
 [Waring Ice Cream Maker](https://youtu.be/wKIRw0wFPIg)
+
 [Ravelco Anti Theft Device](https://youtu.be/L3rl6rdgQJM)
 
 Respected feature values are collected in file "LLFeatures.csv". Slight variations can be expected due to format conversion.
+
 Scures from crowdsourcing study are collected in file "OBrienUES.csv".
 
 
