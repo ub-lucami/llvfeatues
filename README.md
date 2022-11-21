@@ -20,7 +20,7 @@ Follow the steps below in the listed order to provide necessary data.
 
 Video analysis steps may be omitted if results are provided in adequate data files.
 
-### framerate conversion 
+### 1. Framerate Conversion 
 
 It is advisable to use a uniform frame rate before low level features are calculated. 
 This will ensure a balanced interpretation of time-related video features.
@@ -36,7 +36,7 @@ Requirements: [ffmpeg](https://ffmpeg.org/) installed in computer's PATH
 
 Script is compatible with Windows 10 and Windows 11.
 
-### low level video feature extraction
+### 2. Low Level Video Feature Extraction
 
 We provide a Matlab set of scripts which analyze all video files in a single folder and provide a set of low-level video features in a csv file.
 
@@ -62,9 +62,9 @@ Finally, call the Matlab function "mergeLLFeatures.m" in your Matlab environment
 
 Function colorspace() courtesy of Pascal Getreuer (2022). Colorspace Transformations (https://www.mathworks.com/matlabcentral/fileexchange/28790-colorspace-transformations), MATLAB Central File Exchange. Retrieved October 10, 2022.
 
-### merge of file features and engagement scores into a joint table
+### 3. Merge Scores and Features
 
-Run the file "aggregateTables.py" to merge Low Level features and User Engagement scores into a joint table.
+Run the file "aggregateTables.py" to merge Low Level Video Features and User Engagement Scores into a single table.
 
 Requirements:
 
@@ -74,23 +74,28 @@ Before the run specify folder and data filenames in script header, eg.:
 
 (Cell 3) Features
 
+```py
 file_path = '../samples/'
-
 data_fn = 'LLFeatures.csv'
+```
 
 (Cell 4) Scores
 
+```py
 data_fn = 'OBrienUES.csv'
+```
 
 (Cell 6)
 
+```py
 UES_LLF_fn = 'UES_LLFeatures.csv'
-
+```
+After edits, run script:
 ```py
 .\landscape_feats_inbar.py
 ```
 
-### statistics of Scores and Features
+### 4. Statistics of UES-SF Scores and Low-Level Video Features
 
 Run the file "landscape_feats_inbar.py" to get statistical data on Low Level features and User Engagement scores. 
 
@@ -100,17 +105,18 @@ numpy, pandas, matplotlib.pyplot, seaborn
 
 Before the run specify folder and data filename in script header (Cell 3), eg.:
 
+```py
 file_path = '../samples/'
-
 data_fn = 'UES_LLFeatures.csv'
-
+```
+After edits, run script:
 ```py
 .\landscape_feats_inbar.py
 ```
 
-### hypothesis testing
+### 5. Hypothesis Testing
 
-Run the file "runExperiment_ExplVar.py" to process all pairs of Low Level features against User Engagement scores. 
+Run the file "runExperiment_ExplVar.py" to process all pairs of Low Level Video Features against User Engagement Scores. 
 
 Requirements:
 
@@ -120,9 +126,12 @@ explVar_tools - provided in this library
 
 Before the run specify folder and data filename in script header (Cell 3), eg.:
 
+```py
 file_path = '../samples/'
-
 data_fn = 'UES_LLFeatures.csv'
+```
+
+After edits, run script:
 
 ```py
 .\runExperiment_ExplVar.py
@@ -130,9 +139,9 @@ data_fn = 'UES_LLFeatures.csv'
 
 Please ignore irrelevant run-time warnings.
 
-### maximum possible R2
+### 6. Maximum possible R2
 
-As explained in our study, it is not the intention to build a complete regression model but to study only the contribution of video aspects towards the engagement scores. 
+As explained in our study, it is not the intention to build a complete regression model but to study only the contribution of video aspects towards the engagement scores. Hereby we use categorical video regression to have an insight into maximum acheivable R-squared values based on advertisement video only.
 Variability of scores within a single video regardless of the features turns out to be high, which lead to low R-squared values.
 
 Run the file "runExperiment_ExplVarIdeal.py" to determine maximum possible R-squared values for the case of ideal video features.
@@ -145,37 +154,28 @@ explVar_tools_4ideal - provided in this library
 
 Before the run specify folder and data filename in script header (Cell 3), eg.:
 
+```py
 file_path = '../samples/'
-
 data_fn = 'UES_LLFeatures.csv'
+```
+
+After edits, run script:
 
 ```py
 .\runExperiment_ExplVarIdeal.py
 ```
-## Sample data
+## 7. Sample data
 
-All required sample data are available in subfolder "./samples".
-Low level features were obtained from video files loaded on YouTube
+The required sample data are available in subfolder "./samples".
+Low level features were obtained from video files available on YouTube.
+A detailed list of files is provided with the dataset. 
 
-[Dior Joy Perfume](https://youtu.be/1CRihg1X89A)
+Scores from crowdsourcing study are collected in file "OBrienUES.csv".
 
-[Coca Cola](https://youtu.be/qdPXQLrueRg)
+Video Feature values are provided in file "LLFeatures.csv" for convenience.
+The results in this table were obtained from video files following the Steps 1-2 of this manual. 
+By following Steps 1-2 one can perform video analysis of any given recordings.
+Slight variations can arise due to numerical errors and format conversion.
 
-[W. Collision Center](https://youtu.be/lwEyAW0ia5k)
-
-[Little Baby's Ice Cream](https://youtu.be/erh2ngRZxs0)
-
-[Waring Ice Cream Maker](https://youtu.be/wKIRw0wFPIg)
-
-[Ravelco Anti Theft Device](https://youtu.be/L3rl6rdgQJM)
-
-Respected feature values are collected in file "LLFeatures.csv". Slight variations can be expected due to format conversion.
-
-Scures from crowdsourcing study are collected in file "OBrienUES.csv".
-
-
-
-
-```
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

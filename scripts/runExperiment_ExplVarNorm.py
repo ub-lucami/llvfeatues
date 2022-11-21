@@ -15,7 +15,6 @@ import os
 import numpy as np
 import pandas as pd
 import pydove as dv
-import seaborn as sns
 import matplotlib.pyplot as plt
 #from sklearn.linear_model import LinearRegression
 #from sklearn.metrics import r2_score
@@ -34,7 +33,7 @@ import explVar_tools as evt
 
 # Video feature
 #file_path = '../samples/'
-file_path = '../../pydove/CW30x5N/'
+file_path = '../../pydove/CW30/'
 data_fn = 'UES_LLFeatures.csv'
 
 
@@ -42,39 +41,38 @@ data_df = pd.read_csv(file_path + data_fn)
 data_rp = pd.DataFrame()
 
 #%%
-# normalization of features to [0, 1]
-
-for varNamesAdj in [
-    'avgLightKeyAd',    
-    # 'avgColVarAd', 
-    # 'avgMotionMeanAd', 
-    # 'avgMotionStdAd', 
-    'avgShotLenAd'
-    ]:
-    data_df.insert(data_df.columns.get_loc(varNamesAdj)+1, varNamesAdj+'Adj', data_df[varNamesAdj])
-    data_df[varNamesAdj+'Adj']=data_df[varNamesAdj+'Adj'].apply(lambda x: (x-data_df[varNamesAdj+'Adj'].min())/(data_df[varNamesAdj+'Adj'].max()-data_df[varNamesAdj+'Adj'].min()))
-
 # add rows with log-lin adjustments to dataframe
 # no logarithm for 'avgLightKeyAd'
 
-
-#log_offset=[0.015, 0.1, 0.1, 0.00001]
-log_offset=5E-4
-i=0
-for varNamesAdj in [  
-    # 'avgLightKeyAd',    
+for varNamesAdj in [
+    'avgLightKeyAd',    
     'avgColVarAd', 
-    # 'avgMotionMeanAd', 
-    # 'avgMotionStdAd', 
+    #'avgColVarAdLog', 
+    'avgMotionMeanAd', 
+    'avgMotionStdAd', 
     'avgShotLenAd'
+    #'avgShotLenAdLog'
     ]:
-    #data_df[varNamesAdj+'Adj']=data_df[varNamesAdj].apply(lambda x: (x+log_offset[i]))
-    data_df[varNamesAdj+'Log']=data_df[varNamesAdj].apply(lambda x: (x+log_offset))
-    data_df[varNamesAdj+'Log']=data_df[varNamesAdj+'Log'].apply(np.log10)
-    i=i+1
+    data_df.insert(data_df.columns.get_loc(varNamesAdj)+1, varNamesAdj+'Adj', data_df[varNamesAdj])
+    data_df[varNamesAdj+'Adj']=data_df[varNamesAdj+'Adj'].apply(lambda x: (x-data_df[varNamesAdj+'Adj'].min())/(data_df[varNamesAdj+'Adj'].max()-data_df[varNamesAdj+'Adj'].min()))
+    #data_df[varNamesAdj+'Adj']=data_df[varNamesAdj+'Adj'].apply(lambda x: (x/(data_df[varNamesAdj+'Adj'].max()-data_df[varNamesAdj+'Adj'].min()))
+    
+    
+# #log_offset=[0.015, 0.1, 0.1, 0.00001]
+# log_offset=[0.001, 0.1, 0.3, 0.000000000001]
+# #log_offset=[1, 1, 1, 1]
+# i=0
+# for varNamesAdj in [  
+#     'avgColVarAd', 
+#     'avgMotionMeanAd', 
+#     'avgMotionStdAd', 
+#     'avgShotLenAd'
+#     ]:
+#     data_df[varNamesAdj+'Adj']=data_df[varNamesAdj+'Adj'].apply(lambda x: (x+log_offset[i]))
+#     data_df[varNamesAdj+'Adj']=data_df[varNamesAdj+'Adj'].apply(np.log10)
+#     i=i+1
 #%% tentative outlier drop eg. C1: single shot.
-# data_df=data_df[data_df['videoID']!='AD_19']
-# data_df=data_df[data_df['avgShotLenAd']<450]
+#data_df=data_df[data_df['videoID']!='C1']
 data_df['UES']=data_df[['FA', 'PU', 'AE', 'RW']].mean(axis=1)
 
 #%%
@@ -111,37 +109,30 @@ varNamesPrint={
     'avgMotionMeanAd': 'Mean Motion', 
     'avgMotionStdAd': 'StDev Motion', 
     'avgShotLenAd': 'Shot Lenght ',
-    'avgLightKeyAdLog': 'Lighting Key (log)',
-    'avgColVarAdLog': 'Color Variance (log)', 
-    'avgMotionMeanAdLog': 'Mean Motion (log)', 
-    'avgMotionStdAdLog': 'StDev Motion (log)', 
-    'avgShotLenAdLog': 'Shot Lenght (log)',
-    'avgLightKeyAdAdj': 'Lighting Key (Norm)',
-    'avgColVarAdAdj': 'Color Variance (Norm)', 
-    'avgMotionMeanAdAdj': 'Mean Motion (Norm)', 
-    'avgMotionStdAdAdj': 'StDev Motion (Norm)', 
-    'avgShotLenAdAdj': 'Shot Lenght (Norm)'
+    'avgLightKeyAdAdj': 'Lighting Key (log)',
+    'avgColVarAdAdj': 'Color Variance (log)', 
+    'avgMotionMeanAdAdj': 'Mean Motion (log)', 
+    'avgMotionStdAdAdj': 'StDev Motion (log)', 
+    'avgShotLenAdAdj': 'Shot Lenght (log)'
     }    
 #%%
 # iterate
 for idx_var in [
-    'avgLightKeyAd',    
-    #'avgLightKeyAdAdj',
-    'avgColVarAd', 
-    'avgColVarAdLog',     
-    'avgMotionMeanAd', 
-    #'avgMotionMeanAdAdj', 
-    'avgMotionStdAd', 
-    #'avgMotionStdAdAdj', 
-    'avgShotLenAd',
-    'avgShotLenAdLog'
+    #'avgLightKeyAd',    
+    'avgLightKeyAdAdj',
+    #'avgColVarAd', 
+    'avgColVarAdAdj',     
+    #'avgMotionMeanAd', 
+    'avgMotionMeanAdAdj', 
+    #'avgMotionStdAd', 
+    'avgMotionStdAdAdj', 
+    #'avgShotLenAd',
+    'avgShotLenAdAdj'
     ]:
     ind_var_nms = [idx_var] #['avgLightKeyAd']
 
     if not os.path.exists(file_path+'Tables/'):
         os.makedirs(file_path+'Tables/')
-    if not os.path.exists(file_path+'Figs/'):
-        os.makedirs(file_path+'Figs/')
     tex_tablename = 'Tables/'+ind_var_nms[0] + '_tbl.tex'
     with open(tex_listname,"a") as file:
         file.write("\input{"+tex_tablename+"}\n")
@@ -150,7 +141,7 @@ for idx_var in [
         file.write("\\centering \n")
         file.write("\\begin{tabular}{lllll}\n")
         file.write("\\toprule\n")
-        file.write("UES-SF & \\multicolumn{2}{c}{linear} & \\multicolumn{2}{c}{quadratic}  \\\\ \n")
+        file.write("UES-SF & \\multicolumn{2}{c}{linear} & \\multicolumn{2}{c}{pw-linear}  \\\\ \n")
         file.write("     & $R^2$     & $p$     & $R^2$     & $p$      \\\\ \n")
         file.write("\\midrule \n")
     with open(tex_graphtable, "a") as file:
@@ -159,7 +150,7 @@ for idx_var in [
         file.write("\\centering \n")
         file.write("\\begin{tabular}{|c|c|c|}\n")
         file.write("\\toprule\n")
-        file.write("UES-SF & Linear & quadratic \\\\ \n")
+        file.write("UES-SF & Linear & pw-Linear \\\\ \n")
     print(ind_var_nms[0])    
     #for selected_feat in ['AE', 'RE', 'AA', 'PI','avgAE', 'avgRE', 'avgAA', 'avgPI']:
     #for selected_feat in ['FA', 'PU', 'AE', 'RW','avgFA', 'avgPU', 'avgAE', 'avgRW']:
@@ -210,16 +201,14 @@ for idx_var in [
             if codeIn=='quadratic':
                 statres=dv.regplot(x=ind_var_nms[0],y=dep_var_nm, data=data_df, x_jitter=(data_df[ind_var_nms[0]].max()-data_df[ind_var_nms[0]].min())/100*0, y_jitter=0.3, order=2)
             # if codeIn=='cubic':
-            #     statres=dv.regplot(x=ind_var_nms[0],y=dep_var_nm, data=data_df, x_jitter=(data_df[ind_var_nms[0]].max()-data_df[ind_var_nms[0]].min())/100, y_jitter=0.3, order=3)
+            #     statres=dv.regplot(x=ind_var_nms[0],y=dep_var_nm, data=data_df, x_jitter=(data_df[ind_var_nms[0]].max()-data_df[ind_var_nms[0]].min())/100, y_jitter=0.3, order=3, robust=True)
             R2=statres.rsquared
             p_val=statres.f_pvalue
             #plt.title(codeIn)
             plt.title(codeIn + ": R2="+ str(round(R2, 3)) +", p_val="+str(round(p_val, 4)))
             plt.xlabel(varNamesPrint[ind_var_nms[0]])
             plt.ylabel(dep_var_nm)
-            # if ind_var_nms[0]=="avgColVarAd":
-            #     plt.xscale('log')
-            # plt.show()
+            #plt.show()
             plt.savefig(file_path+'Figs\\'+ind_var_nms[0]+'_'+dep_var_nm+'_'+codeIn+'.pdf')
             plt.close()
 

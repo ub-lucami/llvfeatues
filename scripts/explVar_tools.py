@@ -7,6 +7,7 @@ Created on Wed Jan 19 15:22:44 2022
 
 
 from num2tex import num2tex
+from collections import defaultdict
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -62,7 +63,9 @@ def from_vID_uID_to_vIDuID(vID, uID, code='PsySigs'):
     if code == 'PsySigs':
         return c*vID + uID
     if code == 'VideoFeats':
-        cvID = pd.DataFrame(data=np.array([int(list(x)[1]) for x in vID]), index=vID.index, columns=['uvID'])
+        #cvID = pd.DataFrame(data=np.array([int((x)[3:]) for x in vID]), index=vID.index, columns=['uvID'])
+        temp = defaultdict(lambda: len(temp))
+        cvID = pd.DataFrame([temp[ele] for ele in vID], index=vID.index, columns=['uvID'])+1
         cuID = pd.DataFrame(data=np.array([u if u < 100 else u-100 for u in uID]), index=uID.index, columns=['uvID']) 
         return c*cvID + cuID
 

@@ -123,53 +123,53 @@ for ax in axes.flatten():
 text_kw = dict(ha="center", va="center", size=8)
 ax=axes[0,1]
 ax.text(0.5, 0.5, 'min', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,2]
 ax.text(0.5, 0.5, 'max', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,3]
 ax.text(0.5, 0.5, 'mean', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,4]
 ax.text(0.5, 0.5, 'std', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,5]
 ax.text(0.5, 0.5, 'raw', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,6]
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax.text(0.5, 0.5, 'hist', **text_kw)
 # ax=axes[0,7]
-# ax.set_facecolor([0.8,0.8,0.8])
+# ax.set_facecolor([1,1,1])
 # ax.text(0.5, 0.5, 'log hist', **text_kw)
 
 
 for i,ax in enumerate(axes[1:,0]):
     ax.text(0.5, 0.5, varNamesPrint[i], **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,1]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].min():.3g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,2]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].max():.4g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,3]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].mean():.3g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,4]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].std():.3g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,5]):
     #ax.boxplot(x=varNames[i], data=data_LandTable, vert=False)
     #sns.boxplot(x=varNames[i], data=data_LandTable, ax=ax)
-    sns.barplot(x='videoID', y=varNames[i], data=data_LandTableVid.reset_index(), ax=ax)
+    sns.barplot(x='videoID', y=varNames[i], data=data_LandTableVid.reset_index(), color='b', ax=ax)
     ax.set(xlabel=None,  ylabel=None)
     #ax.set_yscale("log")
     delta=0.0*(data_LandTable[varNames[i]].max()-data_LandTable[varNames[i]].min())
     ax.set(ylim=(data_LandTable[varNames[i]].min()-delta,data_LandTable[varNames[i]].max()+delta))
     ax.axes.yaxis.set_visible(False)
     #sns.histplot(data_LandTable[varNames[i]], stat="density", bins=8, kde=True, ax=ax)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 #ax.set_xlabel(" C1 C2 C3 C4 C5 C6 C7 C8", fontsize=7.7)
 for i,ax in enumerate(axes[1:,6]):
     #ax.boxplot(x=varNames[i], data=data_LandTable, vert=False)
@@ -179,7 +179,7 @@ for i,ax in enumerate(axes[1:,6]):
     #delta=0.0*(data_LandTable[varNames[i]].max()-data_LandTable[varNames[i]].min())
     #ax.set(ylim=(data_LandTable[varNames[i]].min()-delta,data_LandTable[varNames[i]].max()+delta))
     sns.histplot(data_LandTable[varNames[i]], stat="density", bins=10, log_scale=False, kde=True, ax=ax)
-    ax.set_facecolor([0.8,0.8,0.8])    
+    ax.set_facecolor([1,1,1])    
     ax.set(xlabel=None,  ylabel=None, xticklabels=[])
     ax.axes.xaxis.set_visible(False)
 log_offset=[1, 0.015, 0.1, 0.1, 0.00001]
@@ -192,9 +192,9 @@ log_offset=[1, 0.015, 0.1, 0.1, 0.00001]
 #     #ax.set(ylim=(data_LandTable[varNames[i]].min()-delta,data_LandTable[varNames[i]].max()+delta))
 #     sns.histplot(data_LandTableLog[varNames[i]+'Adj'], stat="density", bins=10, log_scale=False, kde=True, ax=ax)
 #     #sns.histplot(data_LandTable[varNames[i]].apply(lambda x: (x-data_LandTable[varNames[i]].min())/(data_LandTable[varNames[i]].max()-data_LandTable[varNames[i]].min())+log_offset[i]), stat="density", bins=10, log_scale=True, kde=True, ax=ax)
-#     ax.set_facecolor([0.8,0.8,0.8])    
+#     ax.set_facecolor([1,1,1])    
 #     ax.set(xlabel=None,  ylabel=None, xticklabels=[])
-#     ax.axes.xaxis.set_visible(False)
+#     ax.axes.xaxis.set_visible(True)
 fig.subplots_adjust(0.05,0.05,0.95,0.95, wspace=0.02, hspace=0.05)
 plt.savefig(file_path+'VideoFeaturesStatsBarLinLogHist.pdf')
 plt.show()
@@ -235,39 +235,39 @@ for ax in axes.flatten():
 text_kw = dict(ha="center", va="center", size=8)
 ax=axes[0,1]
 ax.text(0.5, 0.5, 'min', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,2]
 ax.text(0.5, 0.5, 'max', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,3]
 ax.text(0.5, 0.5, 'mean', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,4]
 ax.text(0.5, 0.5, 'std', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,5]
 ax.text(0.5, 0.5, 'raw', **text_kw)
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax=axes[0,6]
-ax.set_facecolor([0.8,0.8,0.8])
+ax.set_facecolor([1,1,1])
 ax.text(0.5, 0.5, 'hist', **text_kw)
 
 
 for i,ax in enumerate(axes[1:,0]):
     ax.text(0.5, 0.5, varNamesPrint[i], **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,1]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].min():.2g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,2]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].max():.2g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,3]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].mean():.2g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,4]):
     ax.text(0.5, 0.5, f"{data_LandTable[varNames[i]].std():.2g}", **text_kw)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,5]):
     #ax.boxplot(x=varNames[i], data=data_LandTable, vert=False)
     #sns.boxplot(x=varNames[i], data=data_LandTable, ax=ax)
@@ -277,7 +277,7 @@ for i,ax in enumerate(axes[1:,5]):
     delta=0.0*(data_LandTable[varNames[i]].max()-data_LandTable[varNames[i]].min())
     ax.set(ylim=(data_LandTable[varNames[i]].min()-delta,data_LandTable[varNames[i]].max()+delta))
     #sns.histplot(data_LandTable[varNames[i]], stat="density", bins=8, kde=True, ax=ax)
-    ax.set_facecolor([0.8,0.8,0.8])
+    ax.set_facecolor([1,1,1])
 for i,ax in enumerate(axes[1:,6]):
     #ax.boxplot(x=varNames[i], data=data_LandTable, vert=False)
     #sns.boxplot(x=varNames[i], data=data_LandTable, ax=ax)
@@ -286,7 +286,7 @@ for i,ax in enumerate(axes[1:,6]):
     #delta=0.0*(data_LandTable[varNames[i]].max()-data_LandTable[varNames[i]].min())
     #ax.set(ylim=(data_LandTable[varNames[i]].min()-delta,data_LandTable[varNames[i]].max()+delta))
     sns.histplot(data_LandTable[varNames[i]], stat="density", bins=10, kde=True, ax=ax)
-    ax.set_facecolor([0.8,0.8,0.8])    
+    ax.set_facecolor([1,1,1])    
 fig.subplots_adjust(0.05,0.05,0.95,0.95, wspace=0.02, hspace=0.05)
 plt.savefig(file_path+'UES_SF_StatsBar.pdf')
 plt.show()

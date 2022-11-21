@@ -32,7 +32,7 @@ import pandas as pd
 
 #%% import video features
 
-file_path = '../samples/'
+file_path = '../../pydove/CW30x5N/'
 data_fn = 'LLFeatures.csv'
 data_df = pd.read_csv(file_path + data_fn)
 data_df.rename(columns = {'videoName':'videoID'}, inplace = True)
@@ -94,6 +94,8 @@ data_df['avgRW']=data_df['videoID'].map(oBrienUEScores_di['RW'])
 
 # data_df['videoIDc']=data_df['videoID']
 # data_df['videoID']=data_df['videoID'].map(videoID_di)
+
+
 
 #%% reassemble teble and write the results to table
 
